@@ -1,4 +1,3 @@
-#archivo makefile para creacion de ejecutables
 
 #definicion de variables
 PATH=/home/calc/Proyecto3/clantontoolchain/sysroots/i686-pokysdk-linux/usr/bin:/home/calc/Proyecto3/clantontoolchain/sysroots/i686-pokysdk-linux/usr/bin/i586-poky-linux:$PATH
