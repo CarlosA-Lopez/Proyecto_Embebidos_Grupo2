@@ -1,0 +1,75 @@
+ó
+6ÈSc           @   s(  d  Z  d e f d „  ƒ  YZ d e f d „  ƒ  YZ d e f d „  ƒ  YZ d e f d „  ƒ  YZ d	 e f d
+ „  ƒ  YZ d e f d „  ƒ  YZ d
+ e f d „  ƒ  YZ d e f d „  ƒ  YZ	 d e f d „  ƒ  YZ
+ d e
+ f d „  ƒ  YZ d e
+ f d „  ƒ  YZ d e
+ f d „  ƒ  YZ
+ d e
+ f d „  ƒ  YZ d S(   sj  
+exceptions
+==========
+
+A module that contains plotly's exception hierarchy.
+
+message (required!) (should be root message + caller message)
+info: (required!)
+    path_to_error (required!)
+    minimal_message (required!)
+
+- minimal_message is set inside this module, should not be set elsewhere
+
+- message is set inside this module, should not be set elsewhere
+
+
+t   PlotlyErrorc           B   s   e  Z RS(    (   t   __name__t
+   __module__(    (    (    s   plotly/exceptions.pyR       s   t   PlotlyGraphObjectErrorc           B   s8   e  Z d  d d d  d „ Z d „  Z d „  Z d „  Z RS(   t    c         C   s´   | |  _  | |  _ t | t ƒ r- | |  _ n$ | d  k rE g  |  _ n | g |  _ t | t ƒ rl | |  _ n$ | d  k r„ g  |  _ n | g |  _ t t |  ƒ j	 | ƒ |  j
+ ƒ  d  S(   N(   t   messaget
+   plain_messaget
+   isinstancet   listt   patht   Nonet   notest   superR   t   __init__t   prepare(   t   selfR   R	   R   R   (    (    s   plotly/exceptions.pyR
+      s    		c         C   s7   t  | t ƒ r! |  j | 7_ n |  j | g 7_ d  S(   N(   R   R   R   (   R   t   note(    (    s   plotly/exceptions.pyt   add_note/   s    c         C   s9   t  | t ƒ r" | |  j |  _ n | g |  j |  _ d  S(   N(   R   R   R	   (   R   R	   (    (    s   plotly/exceptions.pyt   add_to_error_path5   s    c         C   sæ   |  j  } | d 7} xS t |  j ƒ D]B \ } } | t | ƒ 7} | t |  j ƒ d k  r# | d 7} q# q# W| d 7} t |  j ƒ r¤ | d j d j |  j ƒ ƒ 7} n  t |  j ƒ d k rÖ | |  j d d f |  _ n | f |  _ d  S(   Ns   
+
+Path To Error:
+[i   s   ][t   ]s   
+
+Additional Notes:
+{0}s   
+i    (	   R   t	   enumerateR	   t   reprt   lenR   t   formatt   joint   args(   R   R   t   iiit   key(    (    s   plotly/exceptions.pyR   ;   s    	
+
+	N(   R   R   R
+   R
+   R   R   R   (    (    (    s   plotly/exceptions.pyR      s   		t   PlotlyDictKeyErrorc           B   s   e  Z d  d  d „ Z RS(   R   c         K   sk   d j  d | d | j j ƒ } d j  d | d | j j ƒ } t t |  ƒ j d | d | g d | |  d  S(	   Nsn   Invalid key, '{key}', for class, '{obj_name}'.
+
+Run 'help(plotly.graph_objs.{obj_name})' for more information.R   t   obj_names-   Invalid key, '{key}', found in '{obj}' objectt   objR   R	   R   (   R   t	   __class__R   R   R   R
+   (   R   R   R   t   kwargsR   R   (    (    s   plotly/exceptions.pyR
+   M   s    			(   R   R   R
+   (    (    (    s   plotly/exceptions.pyR   L   s   t   PlotlyDictValueErrorc           B   s   e  Z d  d  d  d  d „ Z RS(   R   c      	   K   s}   d j  d | d | j j d | d | j j ƒ } d j  d | d | j j ƒ } t t |  ƒ j d | d	 | d
+ | g |  d  S(   NsÈ   Invalid value type, '{value_name}', associated with key, '{key}', for class, '{obj_name}'.
+Valid types for this key are:
+ '{val_types}'.
+
+Run 'help(plotly.graph_objs.{obj_name})' for more information.R   t
+   value_namet	   val_typesR   s;   Invalid value found in '{obj}' associated with key, '{key}'R   R   R   R	   (   R   R   R   R   R!   R
+   (   R   R   R   t   valueR#   R    R   R   (    (    s   plotly/exceptions.pyR
+   \   s    		(   R   R   R
+   (    (    (    s   plotly/exceptions.pyR!   [   s   t   PlotlyListEntryErrorc           B   s   e  Z d  d  d  d „ Z RS(   R   c         K   se   d j  | | j j ƒ } d j  d | j j d | ƒ } t t |  ƒ j d | d | d | g |  d  S(   Ns7   The entry at index, '{0}', is invalid in a '{1}' objects:   Invalid entry found in '{obj}' object at index, '{index}'.R   t   indexR   R   R	   (   R   R   R   R   R%   R
+   (   R   R   R&   t   entryR    R   R   (    (    s   plotly/exceptions.pyR
+   o   s    	(   R   R   R
+   (    (    (    s   plotly/exceptions.pyR%   n   s   t   PlotlyDataTypeErrorc           B   s   e  Z d  d  d „ Z RS(   R   c         K   sV   d j  | | j j ƒ } d j  | ƒ } t t |  ƒ j d | d | d | g |  d  S(   Nsƒ   The entry at index, '{0}', is invalid because it does not contain a valid 'type' key-value. This is required for valid '{1}' lists.sx   Invalid entry found in 'data' object at index, '{0}'. It does not contain a valid 'type' key, required for 'data' lists.R   R   R	   (   R   R   R   R   R(   R
+   (   R   R   R&   R    R   R   (    (    s   plotly/exceptions.pyR
+      s    	(   R   R   R
+   (    (    (    s   plotly/exceptions.pyR(   ~   s   t   PlotlyLocalErrorc           B   s   e  Z RS(    (   R   R   (    (    (    s   plotly/exceptions.pyR)   ‘   s   t   PlotlyLocalCredentialsErrorc           B   s   e  Z d  „  Z RS(   c         C   s    d } t  t |  ƒ j | ƒ d  S(   Ns§  
+Couldn't find a 'username', 'api-key' pair for you on your local machine. To sign in temporarily (until you stop running Python), run:
+>>> import plotly.plotly as py
+>>> py.sign_in('username', 'api_key')
+
+Even better, save your credentials permanently using the 'tools' module:
+>>> import plotly.tools as tls
+>>> tls.set_credentials_file(username='username', api_key='api-key')
+
+For more help, see https://plot.ly/python.
+(   R   R*   R
+   (   R   R   (    (    s   plotly/exceptions.pyR
+   –   s    (   R   R   R
+   (    (    (    s   plotly/exceptions.pyR*   •   s   t   PlotlyServerErrorc           B   s   e  Z RS(    (   R   R   (    (    (    s   plotly/exceptions.pyR+   §   s   t   PlotlyConnectionErrorc           B   s   e  Z RS(    (   R   R   (    (    (    s   plotly/exceptions.pyR,   «   s   t   PlotlyCredentialErrorc           B   s   e  Z RS(    (   R   R   (    (    (    s   plotly/exceptions.pyR-   ¯   s   t   PlotlyAccountErrorc           B   s   e  Z RS(    (   R   R   (    (    (    s   plotly/exceptions.pyR.   ³   s   t   PlotlyRateLimitErrorc           B   s   e  Z RS(    (   R   R   (    (    (    s   plotly/exceptions.pyR/   ·   s   N(   t   __doc__t	   ExceptionR    R   R   R!   R%   R(   R)   R*   R+   R,   R-   R.   R/   (    (    (    s   plotly/exceptions.pyt   <module>   s   0
