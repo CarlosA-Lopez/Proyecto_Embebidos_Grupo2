@@ -1,0 +1,299 @@
+ó
+$+Tc           @@  sU  d  Z  d d l m Z d d l Z d d l Z d d l Z d d l Z d d l Z d d l m	 Z	 d d l m
+ Z
+ d d l m Z d d d „ Z
+ e
+ e _ y d d	 l m Z e Z Wn e k
+ rÍ e Z n Xy" d d l Z d d l Z e Z Wn e k
+ r	e Z n Xe j j e j j d
+ ƒ d ƒ Z e j j e d ƒ Z e j j e d
+ ƒ Z e j j e j j d
+ ƒ d ƒ Z e j j e d ƒ Z i i d d 6d d 6g  d 6e 6i d d 6d d 6e 6Z  yy e j! e ƒ e j" e ƒ e j j# e ƒ se j! e ƒ n  e$ e d ƒ Z% e% j& d ƒ e% j' ƒ  e j( e ƒ e Z) Wn
+ e Z) n Xd „  Z* d „  Z+ d d d d „ Z, d „  Z- d „  Z. d d d „ Z/ d  „  Z0 d! „  Z1 d d" d# d$ „ Z2 d d" d# d% „ Z3 e	 j4 e0 ƒ    e e e d& „ ƒ Z5 d d d' d( e d) „ Z6 d d* „ Z7 d+ „  Z8 d, „  Z9 d- „  Z: e rQd. e j; j< j= f d/ „  ƒ  YZ> n  d S(0   sB   
+tools
+=====
+
+Functions that USERS will possibly want access to.
+
+i    (   t   absolute_importN(   t   utils(   t
+   exceptionsi   (   t
+   graph_objsc         C@  s   d | | | j  |  f S(   Ns   %s:%s: %s:
+
+%s
+
+(   t   __name__(   t   messaget   categoryt   filenamet   linenot   filet   line(    (    s   plotly/tools.pyt   warning_on_one_line   s    (   t   matplotlylibt   ~s   .plotlys   .credentialss   .configs   .tests   .permission_testt    t   usernamet   api_keyt
+   stream_idss   https://plot.lyt
+   plotly_domains   stream.plot.lyt   plotly_streaming_domaint   ws   testing
+c           C@  s   t  S(   N(   t   _file_permissions(    (    (    s   plotly/tools.pyt   check_file_permissionsD   s    c          C@  sÚ   t  rÉ xÍ t t g D]¯ }  t j |  ƒ t j |  ƒ } x= t t |  j ƒ  ƒ D]% \ } } | | k rL | | | <qL qL Wt | j	 ƒ  ƒ } x( | D]  } | t |  k rŽ | | =qŽ qŽ Wt j
+ |  | ƒ q Wn
+ t j d ƒ d S(   s9   Ensure that filesystem is setup/filled out in a valid waysU  Looks like you don't have 'read-write' permission to your 'home' ('~') directory or to our '~/.plotly' directory. That means plotly's python api can't setup local configuration files. No problem though! You'll just have to sign-in using 'plotly.plotly.sign_in()'. For help with that: 'help(plotly.plotly.sign_in)'.
+Questions? support@plot.lyN(
+   R   t   CREDENTIALS_FILEt   CONFIG_FILER   t   ensure_file_existst   load_json_dictt   listt
+   _FILE_CONTENTt   itemst   keyst   save_json_dictt   warningst   warn(   t   fnt   contentst   keyt   valt
+   contents_keys(    (    s   plotly/tools.pyt   ensure_local_plotly_filesH   s    
+#
+c         C@  s£   t  s t j d ƒ ‚ n  t ƒ  t ƒ  } t |  t j ƒ rG |  | d <n  t | t j ƒ rf | | d <n  t | t t	 f ƒ rˆ | | d <n  t
+ j t | ƒ t ƒ  d S(   s=   Set the keyword-value pairs in `~/.plotly_credentials`.
+
+    s<   You don't have proper file permissions to run this function.R   R   R   N(
+   R   R   t   PlotlyErrorR'   t   get_credentials_filet
+   isinstancet   sixt   string_typesR   t   tupleR   R   R   (   R   R   R   t   credentials(    (    s   plotly/tools.pyt   set_credentials_filec   s    	
+
+
+c          G@  s)   t  r t ƒ  t j t |  Œ St t Sd S(   s©   Return specified args from `~/.plotly_credentials`. as dict.
+
+    Returns all if no arguments are specified.
+
+    Example:
+        get_credentials_file('username')
+
+    N(   R   R'   R   R   R   R   (   t   args(    (    s   plotly/tools.pyR)   v   s    	c           C@  s"   t  ƒ  t j t i  ƒ t  ƒ  d  S(   N(   R'   R   R   R   (    (    (    s   plotly/tools.pyt   reset_credentials_file†   s    c         C@  s   t  s t j d ƒ ‚ n  t ƒ  t ƒ  } t |  t j ƒ rG |  | d <n  t | t j ƒ rf | | d <n  t j	 t
+ | ƒ t ƒ  d S(   s9   Set the keyword-value pairs in `~/.plotly/.config`.
+
+    s<   You don't have proper file permissions to run this function.R   R   N(   R   R   R(   R'   t   get_config_fileR*   R+   R,   R   R   R   (   R   R   t   settings(    (    s   plotly/tools.pyt   set_config_fileŽ   s    	
+
+c          G@  s)   t  r t ƒ  t j t |  Œ St t Sd S(   s©   Return specified args from `~/.plotly_credentials`. as dict.
+
+    Returns all if no arguments are specified.
+
+    Example:
+        get_credentials_file('username')
+
+    N(   R   R'   R   R   R   R   (   R0   (    (    s   plotly/tools.pyR2   Ÿ   s    	c          C@  s+   t  ƒ  t t d ƒ }  |  j ƒ  t  ƒ  d  S(   NR   (   R'   t   openR   t   close(   t   f(    (    s   plotly/tools.pyt   reset_config_file¯   s    
+s   100%i
+  c         C@  s—  d } t  ƒ  d } | d k r¤ |  } | t | ƒ  | k rY t j d j | | ƒ ƒ ‚ n  | d } | j | d ƒ j d ƒ d } | j | d ƒ j d ƒ d } n |  } d	 j d
+ | d | ƒ }	 y t | ƒ }
+ Wn  t	 k
+ rô t j d ƒ ‚ n Xt | ƒ d k  rt j d
+ ƒ ‚ n  t
+ | t ƒ rid j d | d
+ | d | d | | d | | d | d | ƒ } n* d j d | d
+ | d | d | d | ƒ } | S(   sì  Returns HTML code to embed figure on a webpage as an <iframe>
+    
+    Plotly uniquely identifies figures with a 'file_owner'/'file_id' pair.
+    Since each file is given a corresponding unique url, you may also simply
+    pass a valid plotly url as the first argument.
+
+    Note, if you're using a file_owner string as the first argument, you MUST
+    specify a `file_id` keyword argument. Else, if you're using a url string
+    as the first argument, you MUST NOT specify a `file_id` keyword argument, or
+    file_id must be set to Python's None value.
+
+    Positional arguments:
+    file_owner_or_url (string) -- a valid plotly username OR a valid plotly url
+
+    Keyword arguments:
+    file_id (default=None) -- an int or string that can be converted to int
+                              if you're using a url, don't fill this in!
+    width (default="100%") -- an int or string corresp. to width of the figure
+    height (default="525") -- same as width but corresp. to the height of the figure
+
+    i   R   sÝ   Because you didn't supply a 'file_id' in the call, we're assuming you're trying to snag a figure from a url. You supplied the url, '{0}', we expected it to start with '{1}'.
+Run help on this function for more information.s   /~R   t   /i    i   s"   /apigetfile/{file_owner}/{file_id}t
+   file_ownert   file_idsá   The 'file_id' argument was not able to be converted into an integer number. Make sure that the positional 'file_id' argument is a number that can be converted into an integer or a string that can be converted into an integer.s5   The 'file_id' argument must be a non-negative number.sÏ   <iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="{plotly_rest_url}/~{file_owner}/{file_id}/{plot_width}/{plot_height}" height="{iframe_height}" width="{iframe_width}"></iframe>t   plotly_rest_urlt
+   plot_widtht   plot_heightt
+   iframe_heightt   iframe_widths´   <iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="{plotly_rest_url}/~{file_owner}/{file_id}" height="{iframe_height}" width="{iframe_width}"></iframe>N(   R2   t   Nonet   lenR   R(   t   formatt   replacet   splitt   intt
+   ValueErrorR*   (   t   file_owner_or_urlR;   t   widtht   heightt   paddingR<   t   urlt   headR:   t   resourcet   test_if_intt   s(    (    s   plotly/tools.pyt	   get_embed¸   sB    
+
+"	
+
+		c         C@  s˜   t  |  | | | ƒ } y$ d d l m } | | d t ƒSWn n Xt r‡ | rw d j d t ƒ  d d |  d | ƒ } n |  } t | ƒ St j	 d ƒ d	 S(
+   sà  Embeds existing Plotly figure in IPython Notebook
+    
+    Plotly uniquely identifies figures with a 'file_owner'/'file_id' pair.
+    Since each file is given a corresponding unique url, you may also simply
+    pass a valid plotly url as the first argument.
+
+    Note, if you're using a file_owner string as the first argument, you MUST
+    specify a `file_id` keyword argument. Else, if you're using a url string
+    as the first argument, you MUST NOT specify a `file_id` keyword argument, or
+    file_id must be set to Python's None value.
+
+    Positional arguments:
+    file_owner_or_url (string) -- a valid plotly username OR a valid plotly url
+
+    Keyword arguments:
+    file_id (default=None) -- an int or string that can be converted to int
+                              if you're using a url, don't fill this in!
+    width (default="100%") -- an int or string corresp. to width of the figure
+    height (default="525") -- same as width but corresp. to the height of the figure
+
+    i    (   t   htmlt   hides   {plotly_domain}/~{un}/{fid}R   t   unt   fidsž   Looks like you're not using IPython or Sage to embed this plot. If you just want the *embed code*, try using `get_embed()` instead.
+Questions? support@plot.lyN(
+   RQ   t   sage_salvusRR   t   Falset   _ipython_importedRC   R2   t
+   PlotlyDisplayR    R!   (   RH   R;   RI   RJ   RP   RR   RL   (    (    s   plotly/tools.pyt   embed  s     	
+
+c         C@  sw   t  rf t j ƒ  } t j | ƒ j |  ƒ | r; | j ƒ  n  | rN | j ƒ  n  | r_ | j GHn  | j St	 j
+ d ƒ d S(   sI  Convert a matplotlib figure to plotly dictionary and send.
+
+    All available information about matplotlib visualizations are stored
+    within a matplotlib.figure.Figure object. You can create a plot in python
+    using matplotlib, store the figure object, and then pass this object to
+    the fig_to_plotly function. In the background, mplexporter is used to
+    crawl through the mpl figure object for appropriate information. This
+    information is then systematically sent to the PlotlyRenderer which
+    creates the JSON structure used to make plotly visualizations. Finally,
+    these dictionaries are sent to plotly and your browser should open up a
+    new tab for viewing! Optionally, if you're working in IPython, you can
+    set notebook=True and the PlotlyRenderer will call plotly.iplot instead
+    of plotly.plot to have the graph appear directly in the IPython notebook.
+
+    Note, this function gives the user access to a simple, one-line way to
+    render an mpl figure in plotly. If you need to trouble shoot, you can do
+    this step manually by NOT running this fuction and entereing the following:
+
+    ============================================================================
+    from mplexporter import Exporter
+    from mplexporter.renderers import PlotlyRenderer
+
+    # create an mpl figure and store it under a varialble 'fig'
+
+    renderer = PlotlyRenderer()
+    exporter = Exporter(renderer)
+    exporter.run(fig)
+    ============================================================================
+
+    You can then inspect the JSON structures by accessing these:
+
+    renderer.layout -- a plotly layout dictionary
+    renderer.data -- a list of plotly data dictionaries
+
+    Positional arguments:
+    fig -- a matplotlib figure object
+    username -- a valid plotly username **
+    api_key -- a valid api_key for the above username **
+    notebook -- an option for use with an IPython notebook
+
+    ** Don't have a username/api_key? Try looking here:
+    {plotly_domain}/plot
+
+    ** Forgot your api_key? Try signing in and looking here:
+    {plotly_domain}/api/python/getting-started
+
+    sï   To use Plotly's matplotlylib functionality, you'll need to have matplotlib successfully installed with all of its dependencies. You're getting this error because matplotlib or one of its dependencies doesn't seem to be installed correctly.N(   t   _matplotlylib_importedR   t   PlotlyRenderert   Exportert   runt   resizet   strip_stylet   msgt
+   plotly_figR    R!   (   t   figR_   R`   t   verboset   renderer(    (    s   plotly/tools.pyt
+   mpl_to_plotly6  s    1
+
+gš™™™™™¹?g333333Ã?c         C@  sÞ  t  d t j ƒ  ƒ } d | | d | } d | |  d |  } d } x	t |  ƒ D]û }	 xò t | ƒ D]ä }
+ d j | d ƒ } d j | d ƒ } | | |
+ }
+ |
+ | } d j | d ƒ } d j | d ƒ } | | |	 } | | } t j d |
+ | g d	 | ƒ } | | d | <t j d | | g d	 | ƒ } | | d | <| d 7} qg WqT W| rÑd
+ GHd } d } x\ t |  ƒ D]N }	 d } x1 t | ƒ D]# }
+ | d j | ƒ 7} | d 7} qW| d
+ | } qwW| GHn  t j | ƒ S(   sC  Return a dictionary instance with the subplots set in 'layout'.
+
+    Example 1:
+        # stack two subplots vertically
+        fig = tools.get_subplots(rows=2)
+        fig['data'] += [Scatter(x=[1,2,3], y=[2,1,2], xaxis='x1', yaxis='y1')]
+        fig['data'] += [Scatter(x=[1,2,3], y=[2,1,2], xaxis='x2', yaxis='y2')]
+
+    Example 2:
+        # print out string showing the subplot grid you've put in the layout
+        fig = tools.get_subplots(rows=3, columns=2, print_grid=True)
+
+    key (types, default=default):
+        description.
+
+    rows (int, default=1):
+        Number of rows, evenly spaced vertically on the figure.
+
+    columns (int, default=1):
+        Number of columns, evenly spaced horizontally on the figure.
+
+    horizontal_spacing (float in [0,1], default=0.1):
+        Space between subplot columns. Applied to all columns.
+
+    vertical_spacing (float in [0,1], default=0.05):
+        Space between subplot rows. Applied to all rows.
+
+    print_grid (True | False, default=False):
+        If True, prints a tab-delimited string representation of your plot grid.
+
+    t   layouti   i    s   xaxis{0}s   y{0}s   yaxis{0}s   x{0}t   domaint   anchors%   This is the format of your plot grid!R   s   [{0}]	s   
+(   t   dictR   t   Layoutt   rangeRC   t   XAxist   YAxist   Figure(   t   rowst   columnst   horizontal_spacingt   vertical_spacingt
+   print_gridRc   R=   R>   t   plot_numt   rrrt   ccct
+   xaxis_namet   x_anchort   x_startt   x_endt
+   yaxis_namet   y_anchort   y_startt   y_endt   xaxist   yaxist   grid_stringt   plott	   grid_line(    (    s   plotly/tools.pyt   get_subplots|  s>    !
+
+c         C@  sÎ   y t  j |  j j ƒ  } WnZ t k
+ rv y t  j | ƒ  } Wqw t k
+ rr t j d j |  j j | ƒ ƒ ‚ qw Xn Xt | t	 ƒ r“ | |  7} n- x* t	 |  j
+ ƒ  ƒ D] \ } } | | | <q¦ W| j ƒ  | S(   s’   Returns a new graph object that is guaranteed to pass validate().
+
+    CAREFUL: this will *silently* strip out invalid pieces of the object.
+
+    s,   '{0}' nor '{1}' are recognizable graph_objs.(   R   t
+   NAME_TO_CLASSt	   __class__R   t   KeyErrorR   R(   RC   R*   R   R   t   force_clean(   t   objt   obj_typet   new_objR$   R%   (    (    s   plotly/tools.pyt   get_valid_graph_objÀ  s    
+
+
+
+c         C@  sl   y t  j | } Wn t k
+ r$ n Xy t  j | |  ƒ } Wn) t k
+ rg t j d j | ƒ ƒ ‚ n Xd S(   sú   Validate a dictionary, list, or graph object as 'obj_type'.
+
+    This will not alter the 'obj' referenced in the call signature. It will
+    raise an error if the 'obj' reference could not be instantiated as a
+    valid 'obj_type' graph object.
+
+    s&   '{0}' is not a recognizable graph_obj.N(   R   t   KEY_TO_NAMERˆ   R†   R   R(   RC   (   RŠ   R‹   t   test_obj(    (    s   plotly/tools.pyt   validateØ  s    
+
+c         C@  sþ   y t  j | } Wn t k
+ r$ n Xt  j t  j | } x¾ t |  j ƒ  ƒ D]ª \ } } | d k rj qL n  d | | k r© | | d sÄ t j d j	 | | ƒ ƒ ‚ qÄ n t j d j	 | | ƒ ƒ ‚ y t  j | } t
+ | | ƒ WqL t k
+ rõ qL XqL Wd S(   s   Validate a data dictionary (only) for use with streaming.
+
+    An error is raised if a key within (or nested within) is not streamable.
+
+    t   typet
+   streamables3   The '{0}' key is not streamable in the '{1}' objectN(   R   RŽ   Rˆ   t   INFOt   NAME_TO_KEYR   R   R   R(   RC   t   validate_stream(   RŠ   R‹   t   infoR$   R%   t   sub_obj_type(    (    s   plotly/tools.pyR•   ì  s*    
+
+
+c         C@  sç   t  |  t ƒ rO t ƒ  } x0 t |  j ƒ  ƒ D] \ } } t | ƒ | | <q+ W| St  |  t ƒ r› t ƒ  } x- t |  ƒ D] \ } } | t | ƒ g 7} qt W| St  |  t j ƒ rß |  j d d ƒ } | |  k rÛ t	 j
+ d ƒ n  | S|  Sd S(   s9   Replaces '
+' with '<br>' for all strings in a collection.s   
+s   <br>s  Looks like you used a newline character: '\n'.
+
+Plotly uses a subset of HTML escape characters
+to do things like newline (<br>), bold (<b></b>),
+italics (<i></i>), etc. Your newline characters 
+have been converted to '<br>' so they will show 
+up right on your Plotly figure!N(   R*   Rj   R   R   t   _replace_newlinet	   enumerateR+   R,   RD   R    R!   (   RŠ   t   dR$   R%   t   lt   indext   entryRP   (    (    s   plotly/tools.pyR˜     s     		RY   c           B@  s;   e  Z d  Z d „  Z d „  Z d „  Z d „  Z d „  Z RS(   sž  An IPython display object for use with plotly urls
+
+        PlotlyDisplay objects should be instantiated with a url for a plot.
+        IPython will *choose* the proper display representation from any
+        Python object, and using provided methods if they exist. By defining
+        the following, if an HTML display is unusable, the PlotlyDisplay
+        object can provide alternate representations.
+
+        c         C@  s8   | |  _  t | ƒ |  _ t t |  ƒ j d |  j ƒ d  S(   Nt   data(   RN   RQ   t
+   embed_codet   superRY   t   __init__(   t   selfRL   (    (    s   plotly/tools.pyR¡   4  s    	c         C@  s#   |  j  d } t j | ƒ } | j S(   Ns   .svg(   RN   t   requestst   gett   content(   R¢   RL   t   res(    (    s   plotly/tools.pyt
+   _repr_svg_9  s    
+c         C@  s#   |  j  d } t j | ƒ } | j S(   Ns   .png(   RN   R£   R¤   R¥   (   R¢   RL   R¦   (    (    s   plotly/tools.pyt
+   _repr_png_>  s    
+c         C@  s#   |  j  d } t j | ƒ } | j S(   Ns   .pdf(   RN   R£   R¤   R¥   (   R¢   RL   R¦   (    (    s   plotly/tools.pyt
+   _repr_pdf_C  s    
+c         C@  s#   |  j  d } t j | ƒ } | j S(   Ns   .jpeg(   RN   R£   R¤   R¥   (   R¢   RL   R¦   (    (    s   plotly/tools.pyt   _repr_jpeg_H  s    
+(   R   t
+   __module__t   __doc__R¡   R§   R¨   R©   Rª   (    (    (    s   plotly/tools.pyRY   *  s   					(?   R¬   t
+   __future__R    t   ost   os.pathR    R+   R£   t   plotlyR   R   R   RA   R   t
+   formatwarningR   R   t   TrueR[   t   ImportErrorRW   t   IPythont   IPython.core.displayRX   t   patht   joint
+   expandusert
+   PLOTLY_DIRR   R   t   TEST_DIRt	   TEST_FILER   t   mkdirt   rmdirt   existsR5   R7   t   writeR6   t   removeR   R   R'   R/   R)   R1   R4   R2   R8   RQ   RZ   t   template_docRf   R…   R   R   R•   R˜   t   coret   displayt   HTMLRY   (    (    (    s   plotly/tools.pyt   <module>	   s€   	
+
+
+
+
+
+!!
+
+
+
+
+
+
+
+
+							O/E	C		#	
