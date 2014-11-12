@@ -1,0 +1,41 @@
+ó
+$+Tc           @   s•   d  Z  d d l Z d d l Z d d l Z d d l Z e j ƒ  Z d „  Z d „  Z	 d „  Z
+ d „  Z d e j f d „  ƒ  YZ
+ d	 „  Z d
+ „  Z d S(   sK   
+utils
+=====
+
+Low-level functionality NOT intended for users to EVER use.
+
+iÿÿÿÿNc         G   sÇ   i  } t  j j |  ƒ rÃ t j ƒ  t |  d ƒ B } y+ t j | ƒ } t | t	 ƒ s^ i  } n  Wn
+ i  } n XWd QXt j
+ ƒ  | rÃ t	 ƒ  } x+ | D]# } | | k r• | | | | <q• q• W| Sn  | S(   s5   Checks if file exists. Returns {} if something fails.t   rN(   t   ost   patht   existst   lockt   acquiret   opent   jsont   loadt
+   isinstancet   dictt   release(   t   filenamet   argst   datat   ft   dt   key(    (    s   plotly/utils.pyt   load_json_dict   s$    
+
+
+	
+c         C   sp   t  | t ƒ r` t j | d d ƒ} t j ƒ  t |  d ƒ  } | j | ƒ Wd QXt j ƒ  n t	 d ƒ ‚ d S(   sB   Save json to file. Error if path DNE, not a dict, or invalid json.t   indenti   t   wNs+   json_dict was not a dictionary. not saving.(
+   R	   R
+   R   t   dumpsR   R   R   t   writeR   t	   TypeError(   R   t	   json_dictt   json_stringR   (    (    s   plotly/utils.pyt   save_json_dict,   s    
+
+c         C   sS   t  j j |  ƒ sO t  j j |  ƒ \ } } t | ƒ t |  d ƒ  } Wd QXn  d S(   sA   Given a valid filename, make sure it exists (will create if DNE).R   N(   R   R   R   t   splitt   ensure_dir_existsR   (   R   t   headt   tailR   (    (    s   plotly/utils.pyt   ensure_file_exists9   s
+    
+c         C   s/   t  r+ t j j |  ƒ s+ t j |  ƒ q+ n  d S(   s2   Given a valid directory path, make sure it exists.N(   t   dirR   R   t   isdirt   makedirs(   t	   directory(    (    s   plotly/utils.pyR   B   s    t   _plotlyJSONEncoderc           B   s5   e  Z d  „  Z d „  Z d „  Z d „  Z d „  Z RS(   c         C   sr   yd d d  l  } t | ƒ j j d ƒ d | j k rc | j ƒ  } |  j | ƒ } | d  k	 r_ | S| SWn n Xd  S(   Niÿÿÿÿt   .i    (   t   numpyt   typet
+   __module__R   t   __name__t   tolistt   datetimeJSONEncodert   None(   t   selft   objR&   t   lR   (    (    s   plotly/utils.pyt   numpyJSONEncoderK   s    %c         C   s8  d d  l  } yt | | j  | j f ƒ r | j d k rF | j d ƒ S| j d k ss | j d k ss | j d k r€ | j d ƒ S| j d ƒ Sn™ t | d | j  | j f ƒ r)g  | D]o } | j d k rÚ | j d ƒ nH | j d k s| j d k s| j d k r| j d ƒ n | j d ƒ ^ q¶ SWn n Xd  S(   Niÿÿÿÿi    s   %Y-%m-%d %H:%M:%S.%fs   %Y-%m-%d %H:%M:%Ss   %Y-%m-%d(	   t   datetimeR	   t   datet   microsecondt   strftimet   secondt   minutet   hourR,   (   R-   R.   R1   t   o(    (    s   plotly/utils.pyR+   V   s    
+-
+{c         C   s:   y, d d  l  } t | | j ƒ r+ | j ƒ  SWn n Xd  S(   Niÿÿÿÿ(   t   pandasR	   t   SeriesR*   R,   (   R-   R.   R9   (    (    s   plotly/utils.pyt   pandasJSONEncoderl   s    c         C   sT   yF d d l  m } m } | | k r/ t | ƒ S| | k rE t | ƒ SWn n Xd  S(   Niÿÿÿÿ(   t   RRt   ZZ(   t   sage.allR<   R=   t   floatt   intR,   (   R-   R.   R<   R=   (    (    s   plotly/utils.pyt   sageJSONEncoderu   s    
+c         C   s‹   y t  j | ƒ SWnd t k
+ rw } |  j |  j |  j |  j f } x* | D]" } | | ƒ } | d  k	 rH | SqH W| ‚ n Xt  j j	 |  | ƒ S(   N(
+   R   R   R   R+   R0   R;   RA   R,   t   JSONEncodert   default(   R-   R.   t   et   encoderst   encodert   s(    (    s   plotly/utils.pyRC   €   s    
+
+(   R)   R(   R0   R+   R;   RA   RC   (    (    (    s   plotly/utils.pyR$   J   s
+   					c         C   sg  t  |  t ƒ r‘ xQt |  ƒ D]n \ } } t  | t t f ƒ rP t | ƒ |  | <q t  | t ƒ r y t | ƒ |  | <WqŠ t k
+ r† qŠ Xq q WnÒ t  |  t ƒ rct |  j ƒ  ƒ t |  j ƒ  ƒ } } x› t	 | | ƒ D]‡ \ } } t  | t t f ƒ r	t | ƒ |  | <n: t  | t ƒ rCy t | ƒ |  | <WqCt k
+ r?qCXn  |  j
+ | ƒ |  t | ƒ <qÕ Wn  |  S(   N(   R	   t   listt	   enumerateR
+   t   decode_unicodet   strt   UnicodeEncodeErrort   keyst   valuest   zipt   pop(   t   collt   not   entryRM   t   valsR   t   val(    (    s   plotly/utils.pyRJ      s*    
+%
+ c             s   ‡  f d †  } | S(   Nc            sA   t  j d  d k r= |  j d  k	 r= |  j j ˆ    |  _ q= n  |  S(   Ni   s   3.2(   t   syst   versiont   __doc__R,   t   format(   t   func(   t   names(    s   plotly/utils.pyt
+   _decoratorª   s    (    (   R[   R\   (    (   R[   s   plotly/utils.pyt   template_doc©   s    (   RX   R   t   os.pathR   RV   t	   threadingt   LockR   R   R   R   R   RB   R$   RJ   R]   (    (    (    s   plotly/utils.pyt   <module>   s   		
+			E	
