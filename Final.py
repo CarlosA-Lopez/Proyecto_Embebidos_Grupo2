@@ -90,13 +90,7 @@ N = 200;  # number of points to be plotted
 time.sleep(5); 
 
 while i>-1:
-    #global sensorValue0;
-    #global sensorValue1;
-    #global sensorValue2;
-    #global Data1;
-    #global Data2;
-    #global Data3;
-    #global Time;
+
   # read the value from the sensors:
     x=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
     sensorValue0 = analogRead(sensorPin0);
@@ -106,18 +100,12 @@ while i>-1:
     grabartxt(sensorValue1,Data2);
     grabartxt(sensorValue2,Data3);
     grabartxt(time.strftime("%c"),Time);
-  # turn the ledPin on
     digitalWrite(ledPin, HIGH);  
-  # stop the program for <sensorValue0> milliseconds:
     delay(sensorValue2);          
-  # turn the ledPin off:        
     digitalWrite(ledPin, LOW);   
-  # stop the program for for <sensorValue0> milliseconds:
-  #print("sensorValue 1:" + str(sensorValue0));
     delay(sensorValue2);
     
     # (-) Both x and y are numbers (i.e. not lists nor arrays)
-    
     # (@) write to Plotly stream!
     s1.write(dict(x=x,y=sensorValue0));
     s2.write(dict(x=x,y=sensorValue1));
